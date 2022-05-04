@@ -15,7 +15,10 @@
   <td><%= book.inout %></td>
   <td><%= book.category %></td>
   <td><%= book.amount %>万円</td>
-  <td><%= link_to "詳細", book_path(book),class:"btn btn-info" %></td>
+  <td>
+  <%= link_to "詳細", book_path(book),class:"btn btn-info" %>
+  <%= link_to "編集", edit_book_path(book),class:"btn btn-warning" %>
+  </td>
  </tr>
  <% end %>
  </table>
