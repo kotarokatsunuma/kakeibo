@@ -1,5 +1,23 @@
 <h1>家計簿</h1>
 
+<div class = "card">
+ <div class = "card-body">
+  <%= form_with method: "get", local: true do |f|%>
+  <div class = "form-row">
+   <div class = "col">
+     <%= f.number_field "year", placeholder: "年度を入力",class: "form-control" %>
+    </div>
+    <div class = "col">
+     <%= f.number_field "month",placeholder: "対象月を入力", class: "form-control" %>
+     </div>
+     <div class = "col">
+      <%= f.submit "検索",class: "btn btn-primary" %>
+      </div>
+      </div>
+    <% end %>
+    </div>
+    </div>
+
 <%= link_to "+新規", new_book_path, class: "btn btn-success" %>
 <table class="table table-striped">
  <tr>
@@ -9,6 +27,8 @@
   <th>金額</th>
   <th>リンク</th>
  </tr>
+ <% sum = 0 %>
+ <% num = 0 %>
  <% @books.each do |book| %>
  <tr>
   <td><%= book.year %>年<%= book.month %>月</td>
@@ -21,5 +41,31 @@
   <%= link_to "削除", book_path(book),method:"delete",data: { confirm: '本当に削除しますか？'}, class:"btn btn-danger" %>
   </td>
  </tr>
+  <% if book.inout == "収入" %>
+   <% sum += book.amount %>
+  <% else %>
+   <% num += book.amount %>
+  <% end %>
  <% end %>
+ <tr>
+  <td></td>
+  <td></td>
+  <td>収入合計</td>
+  <td><%=sum %>万円</td>
+  <td></td>
+ </tr>
+ <tr>
+  <td></td>
+  <td></td>
+  <td>支出合計</td>
+  <td><%= num %>万円</td>
+  <td></td>
+ </tr>
+ <tr>
+  <td></td>
+  <td></td>
+  <td>合計</td>
+  <td><%= sum - num %>万円</td>
+  <td></td>
+ </tr>
  </table>
