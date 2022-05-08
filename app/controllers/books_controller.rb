@@ -1,5 +1,7 @@
 class BooksController < ApplicationController
   before_action :set_book, only:[:show,:edit,:update,:destroy]
+  before_action :move_to_index, except: [:index, :show]
+
 
   def index
     @books = Book.all
@@ -54,6 +56,12 @@ class BooksController < ApplicationController
   
   def book_params
     params.require(:book).permit(:year,:month,:inout,:category,:amount)
+  end
+
+  def move_to_index
+    unless user_signed_in?
+      redirect_to action: :index
+    end
   end
 
 end
