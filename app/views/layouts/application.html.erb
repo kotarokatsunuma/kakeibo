@@ -12,6 +12,24 @@
   </head>
 
   <body>
+
+  <% if user_signed_in? %>
+  <nav class="navbar navbar-light bg-light"> 
+ <%=  "家計簿アプリ" %>
+           <span><%=  "#{current_user.nickname}の家計簿"  %>
+                <%#= link_to "マイページ", "/users/#{current_user.id}" %>
+                <%= link_to "ログアウト", destroy_user_session_path, method: :delete,class: "btn btn-light" %>
+             </nav> 
+          </span>
+            <%#= link_to "投稿する", new_book_path, class: "btn btn-success" %>
+          
+        <% else %>
+          <div class="grid-6">
+            <%= link_to "ログイン", new_user_session_path, class: "btn btn-light" %>
+            <%= link_to "新規登録", new_user_registration_path, class: "btn btn-light" %>
+          </div>
+        <% end %>
+
   <div class = "container">
   <% if flash[:notice] %>
    <div class = "alert alert-success" role = "alert">
@@ -24,17 +42,7 @@
     <%= flash[:alert] %>
    </div>
   <% end %>
-  <% if user_signed_in? %>
-          <div class="user_nav grid-6">
-            <%= link_to "ログアウト", destroy_user_session_path, method: :delete %>
-            <%= link_to "投稿する", new_book_path, class: "btn btn-success" %>
-          </div>
-        <% else %>
-          <div class="grid-6">
-            <%= link_to "ログイン", new_user_session_path, class: "post" %>
-            <%= link_to "新規登録", new_user_registration_path, class: "post" %>
-          </div>
-        <% end %>
+  
 
     <%= yield %>
   </div>
