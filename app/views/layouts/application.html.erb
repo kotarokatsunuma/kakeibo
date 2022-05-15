@@ -15,7 +15,7 @@
 
   <% if user_signed_in?  %>
   <nav class="navbar navbar-light bg-light"> 
- <%=  "家計簿アプリ" %>
+ <%= link_to "家計簿アプリ",user_path(current_user),class: "btn btn-light" %>
            <span><%= link_to "#{current_user.nickname}の家計簿",user_path(current_user) %>
                 <%#= link_to "マイページ", "/users/#{current_user.id}" %>
                 
