@@ -2,10 +2,12 @@ class BooksController < ApplicationController
   before_action :set_book, only:[:show,:edit,:update,:destroy]
   before_action :move_to_index, except: [:index, :show]
   before_action :prevent_url, only: [:edit, :update, :destroy]
+  before_action :authenticate_user!
 
 
   def index
-    @books = Book.includes(:user)
+    
+    @books = Book.where(user_id: current_user.id)
     @books = @books.where(year: params[:year]) if params[:year].present?
     @books = @books.where(month: params[:month])if params[:month].present?
     
@@ -19,11 +21,12 @@ class BooksController < ApplicationController
   end
 
   def create
+    book_params[:user_id] = current_user.id
     Book.new(book_params)
     @book = Book.new(book_params)
     if @book.save
       flash[:notice] = "家計簿に#{@book.year}年#{@book.month}月データを1件登録しました"
-      redirect_to user_path(current_user)
+      redirect_to root_path
     else
       flash.now[:alert] = "登録に失敗しました。"
       render :new
@@ -56,7 +59,7 @@ class BooksController < ApplicationController
   private
 
   def set_book
-    @book = Book.find(params[:id])
+    @book = Book.where(user_id: current_user.id).find(params[:id])  
   end
   
   def book_params
