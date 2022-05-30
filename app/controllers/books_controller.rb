@@ -1,8 +1,11 @@
 class BooksController < ApplicationController
+  before_action :authenticate_user!
+  before_action :correct_user, only: [:show, :edit, :update]
   before_action :set_book, only:[:show,:edit,:update,:destroy]
   before_action :move_to_index, except: [:index, :show]
-  before_action :prevent_url, only: [:edit, :update, :destroy]
-  before_action :authenticate_user!
+  before_action :prevent_url, only: [:show, :edit, :update, :destroy]
+  
+  
 
 
   def index
@@ -43,7 +46,7 @@ class BooksController < ApplicationController
     Book.new(book_params)
     if @book.update(book_params)
       flash[:notice] = "データを1件更新しました"
-      redirect_to user_path(current_user)
+      redirect_to root_path
     else
       flash.now[:alert] = "更新に失敗しました。"
       render :edit
@@ -53,7 +56,7 @@ class BooksController < ApplicationController
   def destroy
     @book.destroy
     flash[:notice] = "削除しました"
-    redirect_to user_path(current_user)
+    redirect_to root_path
   end
 
   private
@@ -76,6 +79,12 @@ class BooksController < ApplicationController
     if @book.user_id != current_user.id
       redirect_to root_path
     end
+  end
+
+  def correct_user
+    @book = Book.find(params[:id])
+    @user = @book.user
+    redirect_to root_path unless @user == current_user
   end
 
 end
