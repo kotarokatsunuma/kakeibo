@@ -1,5 +1,5 @@
 <h1>家計簿アプリ</h1>
-<% if user_signed_in? && current_user == @books %>
+<%# if user_signed_in? && current_user == @books %>
 <div class = "card">
  <div class = "card-body">
   <%= form_with method: "get", local: true do |f|%>
@@ -76,4 +76,4 @@
   <td></td>
  </tr>
  </table>
-  <% end %>
+  <%# end %>
