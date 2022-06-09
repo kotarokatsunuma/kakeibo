@@ -68,9 +68,7 @@ RSpec.describe '家計簿編集', type: :system do
       expect(
         find('#book_category').value
       ).to eq(@book1.category)
-      #expect(
-        #find(('#book_amount').value
-      #).to eq(@book1.amount)
+      
       # 投稿内容を編集する
       fill_in 'book_category', with: "#{@book1.category}+編集した給料"
       # 編集してもBookモデルのカウントは変わらないことを確認する
